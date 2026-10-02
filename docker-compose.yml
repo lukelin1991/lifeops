@@ -1,0 +1,26 @@
+services:
+
+  postgres:
+    image: postgres:17
+
+    container_name: lifeops-postgres
+
+    environment:
+      POSTGRES_USER: lifeops
+      POSTGRES_PASSWORD: lifeops
+      POSTGRES_DB: lifeops
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - lifeops_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lifeops -d lifeops"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  lifeops_postgres_data:
